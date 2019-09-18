@@ -35,4 +35,12 @@ public class Account {
     public void setAvailable(double available) {
         this.available = available;
     }
+
+    public boolean has(double value) {
+        return getAvailable() >= value;
+    }
+
+    public void withdraw(double value) {
+        setAvailable(getAvailable() - value);
+    }
 }

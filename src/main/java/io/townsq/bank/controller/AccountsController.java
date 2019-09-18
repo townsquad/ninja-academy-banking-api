@@ -36,11 +36,11 @@ public class AccountsController {
     public ResponseEntity<Account> withdraw(@PathVariable String accountNumber, @RequestBody WithdrawRequest withdrawRequest) {
         Account account = repository.get(accountNumber);
 
-        if(account == null || !account.getOwner().equals(withdrawRequest.getRequester()) || account.getAvailable() < withdrawRequest.getValue()) {
+        if(account == null || !account.getOwner().equals(withdrawRequest.getRequester()) || !account.has(withdrawRequest.getValue())) {
             return badRequest().build();
         }
 
-        account.setAvailable(account.getAvailable() - withdrawRequest.getValue());
+        account.withdraw(withdrawRequest.getValue());
 
         return ok(account);
     }
