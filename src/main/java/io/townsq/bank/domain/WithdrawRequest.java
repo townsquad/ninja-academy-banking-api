@@ -20,3 +20,4 @@ public class WithdrawRequest {
         this.value = value;
     }
 }
+

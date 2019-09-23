@@ -43,4 +43,8 @@ public class Account {
     public void withdraw(double value) {
         setAvailable(getAvailable() - value);
     }
+
+    public void deposit(double value) {
+        setAvailable(getAvailable() + value);
+    }
 }

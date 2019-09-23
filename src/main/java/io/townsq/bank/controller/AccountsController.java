@@ -5,6 +5,7 @@ import static org.springframework.http.ResponseEntity.noContent;
 import static org.springframework.http.ResponseEntity.ok;
 
 import io.townsq.bank.domain.Account;
+import io.townsq.bank.domain.DepositRequest;
 import io.townsq.bank.domain.WithdrawRequest;
 import io.townsq.bank.repository.AccountRepository;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,18 @@ public class AccountsController {
         }
 
         account.withdraw(withdrawRequest.getValue());
+
+        return ok(account);
+    }
+
+    @PostMapping("/{accountNumber}/deposit")
+    public ResponseEntity<Account> deposit(@PathVariable String accountNumber, @RequestBody DepositRequest depositRequest) {
+        Account account = repository.get(accountNumber);
+        if(account == null || !account.getOwner().equals(depositRequest.getAccountOwner())) {
+            return badRequest().build();
+        }
+
+        account.deposit(depositRequest.getValue());
 
         return ok(account);
     }
