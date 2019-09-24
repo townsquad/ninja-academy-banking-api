@@ -4,6 +4,7 @@ import static java.util.Arrays.asList;
 
 import io.townsq.bank.domain.Account;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class AccountRepository {
     private static List<Account> accounts = asList(
@@ -15,6 +16,10 @@ public class AccountRepository {
             new Account("10001-6", "Reginaldo", 67634),
             new Account("10002-6", "Valdisnei", 437865)
             );
+
+    public List<Account> getAll() {
+        return accounts.stream().collect(Collectors.toList());
+    }
 
     public Account get(String accountNumber) {
         return accounts

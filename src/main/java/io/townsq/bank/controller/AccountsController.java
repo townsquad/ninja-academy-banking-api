@@ -9,6 +9,8 @@ import io.townsq.bank.domain.DepositRequest;
 import io.townsq.bank.domain.TransferRequest;
 import io.townsq.bank.domain.WithdrawRequest;
 import io.townsq.bank.repository.AccountRepository;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -27,7 +29,7 @@ public class AccountsController {
     public ResponseEntity<Account> get(@PathVariable String accountNumber) {
         Account account = repository.get(accountNumber);
 
-        if(account == null) {
+        if (account == null) {
             return noContent().build();
         }
 
@@ -38,7 +40,7 @@ public class AccountsController {
     public ResponseEntity<Account> withdraw(@PathVariable String accountNumber, @RequestBody WithdrawRequest withdrawRequest) {
         Account account = repository.get(accountNumber);
 
-        if(account == null || !account.getOwner().equals(withdrawRequest.getRequester()) || !account.has(withdrawRequest.getValue())) {
+        if (account == null || !account.getOwner().equals(withdrawRequest.getRequester()) || !account.has(withdrawRequest.getValue())) {
             return badRequest().build();
         }
 
@@ -50,7 +52,7 @@ public class AccountsController {
     @PostMapping("/{accountNumber}/deposit")
     public ResponseEntity<Account> deposit(@PathVariable String accountNumber, @RequestBody DepositRequest depositRequest) {
         Account account = repository.get(accountNumber);
-        if(account == null || !account.getOwner().equals(depositRequest.getAccountOwner())) {
+        if (account == null || !account.getOwner().equals(depositRequest.getAccountOwner())) {
             return badRequest().build();
         }
 
@@ -64,13 +66,11 @@ public class AccountsController {
         Account originAccount = repository.get(request.getOriginAccount());
         Account destinationAccount = repository.get(request.getDestinationAccount());
 
-        if(originAccount == null || !originAccount.has(request.getValue()) || originAccount.getOwner().equals(request.getOriginOwner()))
-        {
+        if (originAccount == null || !originAccount.has(request.getValue()) || originAccount.getOwner().equals(request.getOriginOwner())) {
             return badRequest().body("origin information is invalid.");
         }
 
-        if(destinationAccount == null || destinationAccount.getOwner().equals(request.getOriginOwner()))
-        {
+        if (destinationAccount == null || destinationAccount.getOwner().equals(request.getOriginOwner())) {
             return badRequest().body("destination information is invalid.");
         }
 
@@ -78,6 +78,23 @@ public class AccountsController {
         destinationAccount.deposit(request.getValue());
 
         return ok("transfer requested.");
+    }
+
+    @GetMapping("/in-debit")
+    public ResponseEntity<List<Account>> inDebit() {
+        List<Account> inDebits = new ArrayList<>();
+
+        for (var account : repository.getAll()) {
+            if (account.getAvailable() > 0) {
+                inDebits.add(account);
+            }
+        }
+
+        if (inDebits.size() > 0) {
+            return ok(inDebits);
+        }
+
+        return noContent().build();
     }
 
 }
