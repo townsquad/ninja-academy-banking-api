@@ -6,6 +6,7 @@ import static org.springframework.http.ResponseEntity.ok;
 
 import io.townsq.bank.domain.Account;
 import io.townsq.bank.domain.DepositRequest;
+import io.townsq.bank.domain.TransferRequest;
 import io.townsq.bank.domain.WithdrawRequest;
 import io.townsq.bank.repository.AccountRepository;
 import org.springframework.http.ResponseEntity;
@@ -56,6 +57,27 @@ public class AccountsController {
         account.deposit(depositRequest.getValue());
 
         return ok(account);
+    }
+
+    @PostMapping("/transfer")
+    public ResponseEntity<String> transfer(@RequestBody TransferRequest request) {
+        Account originAccount = repository.get(request.getOriginAccount());
+        Account destinationAccount = repository.get(request.getDestinationAccount());
+
+        if(originAccount == null || !originAccount.has(request.getValue()) || originAccount.getOwner().equals(request.getOriginOwner()))
+        {
+            return badRequest().body("origin information is invalid.");
+        }
+
+        if(destinationAccount == null || destinationAccount.getOwner().equals(request.getOriginOwner()))
+        {
+            return badRequest().body("destination information is invalid.");
+        }
+
+        originAccount.withdraw(request.getValue());
+        destinationAccount.deposit(request.getValue());
+
+        return ok("transfer requested.");
     }
 
 }

@@ -20,3 +20,4 @@ public class DepositRequest {
         this.value = value;
     }
 }
+
