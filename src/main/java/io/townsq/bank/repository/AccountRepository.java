@@ -9,7 +9,7 @@ public class AccountRepository {
     private static List<Account> accounts = asList(
             new Account("00001-6", "Joao", 1235),
             new Account("00002-6", "Maria", 467235),
-            new Account("00003-6", "Alberto", 98709123),
+            new Account("00003-6", "Alberto", 98709),
             new Account("00004-6", "Mariana", 345),
             new Account("00005-6", "Paloma", 5674),
             new Account("10001-6", "Reginaldo", 67634),
