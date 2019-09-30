@@ -11,4 +11,7 @@ public class LoanService {
         return repository.getAll();
     }
 
+    public Loan create(Loan loan) {
+        return repository.save(loan);
+    }
 }
