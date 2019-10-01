@@ -1,6 +1,7 @@
 package io.townsq.bank.service;
 
 import io.townsq.bank.domain.Loan;
+import io.townsq.bank.domain.Status;
 import io.townsq.bank.repository.LoanRepository;
 import java.util.List;
 
@@ -12,6 +13,7 @@ public class LoanService {
     }
 
     public Loan create(Loan loan) {
+        loan.setStatus(Status.WAITING);
         return repository.save(loan);
     }
 }
