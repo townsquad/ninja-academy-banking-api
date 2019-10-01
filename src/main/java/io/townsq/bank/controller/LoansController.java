@@ -4,7 +4,9 @@ import io.townsq.bank.domain.Loan;
 import io.townsq.bank.service.LoanService;
 import java.util.List;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,6 +27,14 @@ public class LoansController {
     public Loan post(@RequestBody Loan loan) {
         return service.create(loan);
     }
+
+    @PutMapping("/AcceptLoan/{loanId}")
+    public Loan accept(@PathVariable String loanId){
+
+      return  service.accept(loanId);
+    }
+
+
 
 }
 
