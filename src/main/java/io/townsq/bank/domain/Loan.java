@@ -1,8 +1,8 @@
 package io.townsq.bank.domain;
 
 public class Loan {
-    private String id;
 
+    private String id;
     private String accountNumber;
     private double amount;
     private Status status;

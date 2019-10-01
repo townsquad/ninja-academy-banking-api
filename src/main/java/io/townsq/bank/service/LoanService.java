@@ -16,4 +16,17 @@ public class LoanService {
         loan.setStatus(Status.WAITING);
         return repository.save(loan);
     }
+
+    public Loan accept(String loanId) {
+        Loan loan = repository.getById(loanId);
+
+        if (loan != null) {
+            loan.setStatus(Status.APPROVED);
+            repository.save(loan);
+        } else {
+            throw new RuntimeException();
+        }
+
+        return loan;
+    }
 }
