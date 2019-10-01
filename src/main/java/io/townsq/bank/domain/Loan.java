@@ -1,11 +1,14 @@
 package io.townsq.bank.domain;
 
 public class Loan {
+    private String id;
+
     private String accountNumber;
     private double amount;
     private Status status;
 
-    public Loan(String accountNumber, double amount, Status status) {
+    public Loan(String id, String accountNumber, double amount, Status status) {
+        this.id = id;
         this.accountNumber = accountNumber;
         this.amount = amount;
         this.status = status;
@@ -34,4 +37,13 @@ public class Loan {
     public void setStatus(Status status) {
         this.status = status;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
 }
