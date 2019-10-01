@@ -23,4 +23,14 @@ public class LoanRepository {
         loans.add(loan);
         return loan;
     }
+
+    public Loan getById(String id) {
+        for (Loan loan : loans) {
+            if (loan.getId().equals(id)) {
+                return loan;
+            }
+        }
+
+        return null;
+    }
 }
