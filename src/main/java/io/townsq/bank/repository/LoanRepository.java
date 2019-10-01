@@ -20,6 +20,11 @@ public class LoanRepository {
     }
 
     public Loan save(Loan loan) {
+        if (loan.getId() != null) {
+            edit(loan);
+            return loan;
+        }
+        loan.setId(String.valueOf(Math.random()));
         loans.add(loan);
         return loan;
     }
@@ -32,5 +37,12 @@ public class LoanRepository {
         }
 
         return null;
+    }
+
+    public void edit(Loan loan) {
+        Loan loanToBeEdited = getById(loan.getId());
+        loanToBeEdited.setStatus(loan.getStatus());
+        loanToBeEdited.setAccountNumber(loan.getAccountNumber());
+        loanToBeEdited.setAmount(loan.getAmount());
     }
 }
