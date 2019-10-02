@@ -55,20 +55,8 @@ public class AccountsController {
 
     @PostMapping("/transfer")
     public ResponseEntity<String> transfer(@RequestBody TransferRequest request) {
-        Account originAccount = service.get(request.getOriginAccount());
-        Account destinationAccount = service.get(request.getDestinationAccount());
 
-        if (originAccount == null || !originAccount.has(request.getValue()) || originAccount.getOwner().equals(request.getOriginOwner())) {
-            return badRequest().body("origin information is invalid.");
-        }
-
-        if (destinationAccount == null || destinationAccount.getOwner().equals(request.getOriginOwner())) {
-            return badRequest().body("destination information is invalid.");
-        }
-
-        originAccount.withdraw(request.getValue());
-        destinationAccount.deposit(request.getValue());
-
+        service.transfer(request);
         return ok("transfer requested.");
     }
 
