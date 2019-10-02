@@ -7,11 +7,17 @@ import java.util.List;
 public class AccountService {
     private AccountRepository repository = new AccountRepository();
 
-    public Account get(String account) {
-        return  repository.get(account);
+    public Account get(String accountNumber) {
+        Account account = repository.get(accountNumber);
+
+        if (account == null) {
+            throw new RuntimeException("Account not found");
+        }
+
+        return account;
     }
 
-    public List<Account > getAll() {
-        return  repository.getAll();
+    public List<Account> getAll() {
+        return repository.getAll();
     }
 }
